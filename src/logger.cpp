@@ -18,7 +18,7 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
-#include <time.h>
+#include <ctime>
 #include <iomanip>
 #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 #include <syslog.h>
@@ -205,8 +205,8 @@ int LogLevelToSyslog(LogLevel log_level)
  *  Comments:
  *      None.
  */
-Logger::Logger(const LoggerPointer parent_logger,
-               const std::string &component,
+Logger::Logger(LoggerPointer parent_logger,
+               std::string component,
                LogLevel minimum_log_level,
                LogFacility log_facility,
                std::ostream &stream) :
@@ -216,8 +216,8 @@ Logger::Logger(const LoggerPointer parent_logger,
     minimum_log_level{minimum_log_level},
     time_precision{TimePrecision::Milliseconds},
     stream{stream},
-    component{component},
-    parent_logger{parent_logger},
+    component{std::move(component)},
+    parent_logger{std::move(parent_logger)},
     critical_buffer{std::make_unique<LoggerBuffer>(LogLevel::Critical, this)},
     error_buffer{std::make_unique<LoggerBuffer>(LogLevel::Error, this)},
     warning_buffer{std::make_unique<LoggerBuffer>(LogLevel::Warning, this)},
@@ -351,7 +351,7 @@ Logger::Logger(std::ostream &stream, LogLevel minimum_log_level) :
  *  Comments:
  *      None.
  */
-Logger::Logger(const LoggerPointer parent_logger,
+Logger::Logger(const LoggerPointer &parent_logger,
                const std::string &component,
                LogLevel minimum_log_level) :
     Logger(parent_logger ? parent_logger : CreateNullLogger(),
@@ -575,7 +575,7 @@ void Logger::EmitLogMessage(LogLevel log_level,
 std::string Logger::GetCurrentTimestamp() const
 {
     std::uint64_t sub_seconds{};
-    std::size_t sub_second_digits{};
+    int sub_second_digits{};
     tm local_time{};
     std::ostringstream oss;
 

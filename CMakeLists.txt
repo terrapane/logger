@@ -19,6 +19,9 @@ option(logger_DEBUG_MACROS_ALWAYS "Always build LOGGER_DEBUG macro lines" OFF)
 # Option to control ability to install the library
 option(logger_INSTALL "Install the Logger Library" ON)
 
+# Determine whether clang-tidy will be performed
+option(logger_CLANG_TIDY "Use clang-tidy to perform linting during build" OFF)
+
 add_subdirectory(dependencies)
 add_subdirectory(src)
 

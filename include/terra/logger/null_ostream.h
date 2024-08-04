@@ -43,8 +43,7 @@ namespace Terra::Logger
 class NullOStream : public std::ostream
 {
     public:
-        NullOStream();
-        virtual ~NullOStream() = default;
+        NullOStream() noexcept;
 };
 
 } // namespace Terra::Logger

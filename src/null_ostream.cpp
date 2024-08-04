@@ -31,13 +31,12 @@ namespace
 class NullBuffer : public std::stringbuf
 {
     public:
-        NullBuffer() = default;
-        virtual ~NullBuffer() = default;
+        NullBuffer() noexcept = default;
 
     protected:
         // Do nothing with the input, but report that all characters consumed
-        virtual std::streamsize xsputn([[maybe_unused]] const char *s,
-                                       std::streamsize count) override
+        std::streamsize xsputn([[maybe_unused]] const char *s,
+                               std::streamsize count) override
         {
             return count;
         }
@@ -63,7 +62,7 @@ NullBuffer null_buffer;
  *  Comments:
  *      None.
  */
-NullOStream::NullOStream() : std::ostream(&null_buffer)
+NullOStream::NullOStream() noexcept : std::ostream(&null_buffer)
 {
 }
 

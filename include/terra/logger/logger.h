@@ -122,8 +122,8 @@ using LoggerPointer = std::shared_ptr<Logger>;
 class Logger : public LoggerInterface
 {
     protected:
-        Logger(const LoggerPointer parent_logger,
-               const std::string &component,
+        Logger(LoggerPointer parent_logger,
+               std::string component,
                LogLevel minimum_log_level,
                LogFacility log_facility,
                std::ostream &stream);
@@ -133,7 +133,7 @@ class Logger : public LoggerInterface
                LogLevel minimum_log_level = LogLevel::Debug);
         Logger(std::ostream &stream,
                LogLevel minimum_log_level = LogLevel::Debug);
-        Logger(const LoggerPointer parent_logger,
+        Logger(const LoggerPointer &parent_logger,
                const std::string &component,
                LogLevel minimum_log_level = LogLevel::Debug);
         virtual ~Logger();
