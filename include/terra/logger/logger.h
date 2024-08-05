@@ -137,8 +137,7 @@ class Logger : public LoggerInterface
                const std::string &component,
                LogLevel minimum_log_level = LogLevel::Debug);
         virtual ~Logger();
-        virtual void Log(LogLevel log_level,
-                         const std::string &message) const override;
+        void Log(LogLevel log_level, const std::string &message) const override;
         void Log(const std::string &message) const
         {
             Log(LogLevel::Info, message);

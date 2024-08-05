@@ -81,8 +81,7 @@ class LoggerBuffer : public std::stringbuf
             owning_thread = thread_id;
         }
 
-        virtual std::streamsize xsputn(const char *s,
-                                       std::streamsize count) override
+        std::streamsize xsputn(const char *s, std::streamsize count) override
         {
             // Ensure only one thread is writing
             synchronize();
@@ -90,7 +89,7 @@ class LoggerBuffer : public std::stringbuf
             return std::stringbuf::xsputn(s, count);
         }
 
-        virtual int sync() override
+        int sync() override
         {
             // Write out string to be logged
             logger->Log(log_level, str());
