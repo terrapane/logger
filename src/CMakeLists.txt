@@ -1,5 +1,5 @@
 # Create the library
-add_library(logger STATIC logger.cpp null_ostream.cpp)
+add_library(logger STATIC logger.cpp)
 add_library(Terra::logger ALIAS logger)
 
 # Make project include directory available to external projects

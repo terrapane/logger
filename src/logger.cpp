@@ -38,10 +38,6 @@ namespace Terra::Logger
 namespace
 {
 
-// Define a global NULLOStream object for sinking log messages when a child
-// logger is created that has no parent logger
-NullOStream Null_Stream;
-
 /*
  *  CreateNullLogger()
  *
@@ -61,6 +57,8 @@ NullOStream Null_Stream;
  */
 LoggerPointer CreateNullLogger()
 {
+    static NullOStream Null_Stream;
+
     return std::make_shared<Logger>(Null_Stream);
 }
 

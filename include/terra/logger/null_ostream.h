@@ -35,15 +35,36 @@
 #pragma once
 
 #include <ostream>
+#include <sstream>
 
 namespace Terra::Logger
 {
+
+// Define the NullBuffer object that just discards input
+class NullBuffer : public std::stringbuf
+{
+    public:
+        NullBuffer() noexcept = default;
+        ~NullBuffer() = default;
+
+    protected:
+        // Do nothing with the input, but report that all characters consumed
+        std::streamsize xsputn([[maybe_unused]] const char *s,
+                               std::streamsize count) override
+        {
+            return count;
+        }
+};
 
 // Define the NullOStream object
 class NullOStream : public std::ostream
 {
     public:
-        NullOStream() noexcept;
+        NullOStream() noexcept : std::ostream(&null_buffer) {}
+        ~NullOStream() = default;
+
+    protected:
+        NullBuffer null_buffer;
 };
 
 } // namespace Terra::Logger
