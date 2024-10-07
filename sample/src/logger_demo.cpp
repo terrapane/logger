@@ -34,7 +34,7 @@ int main()
     logger->Log("Normal log message that defaults to \"info\"");
 
     // Log using streaming operator
-    logger->info << "Nomal log message using streaming operator" << std::flush;
+    logger->info << "Normal log message using streaming operator" << std::flush;
 
     // The are various log levels, and if the terminal supports it, they will
     // be rendered using different colors
