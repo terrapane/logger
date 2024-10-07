@@ -30,7 +30,6 @@
 #include <terra/logger/null_ostream.h>
 #include <terra/conio/ansi_capable.h>
 #include <terra/conio/ansi.h>
-#include "logger_buffer.h"
 
 namespace Terra::Logger
 {
@@ -216,18 +215,18 @@ Logger::Logger(LoggerPointer parent_logger,
     stream{stream},
     component{std::move(component)},
     parent_logger{std::move(parent_logger)},
-    critical_buffer{std::make_unique<LoggerBuffer>(LogLevel::Critical, this)},
-    error_buffer{std::make_unique<LoggerBuffer>(LogLevel::Error, this)},
-    warning_buffer{std::make_unique<LoggerBuffer>(LogLevel::Warning, this)},
-    notice_buffer{std::make_unique<LoggerBuffer>(LogLevel::Notice, this)},
-    info_buffer{std::make_unique<LoggerBuffer>(LogLevel::Info, this)},
-    debug_buffer{std::make_unique<LoggerBuffer>(LogLevel::Debug, this)},
-    critical{critical_buffer.get()},
-    error{error_buffer.get()},
-    warning{warning_buffer.get()},
-    notice{notice_buffer.get()},
-    info{info_buffer.get()},
-    debug{debug_buffer.get()}
+    critical_buffer{LogLevel::Critical, this},
+    error_buffer{LogLevel::Error, this},
+    warning_buffer{LogLevel::Warning, this},
+    notice_buffer{LogLevel::Notice, this},
+    info_buffer{LogLevel::Info, this},
+    debug_buffer{LogLevel::Debug, this},
+    critical{&critical_buffer},
+    error{&error_buffer},
+    warning{&warning_buffer},
+    notice{&notice_buffer},
+    info{&info_buffer},
+    debug{&debug_buffer}
 {
 }
 

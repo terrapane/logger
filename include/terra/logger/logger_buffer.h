@@ -98,7 +98,7 @@ class LoggerBuffer : public std::stringbuf
             str({});
 
             // Lock the mutex
-            std::unique_lock<std::mutex> lock(logger_buffer_mutex);
+            std::lock_guard<std::mutex> lock(logger_buffer_mutex);
 
             // Note that the stream is now available to other threads
             available = true;

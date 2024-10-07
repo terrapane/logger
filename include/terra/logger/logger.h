@@ -91,9 +91,9 @@
 #include <string>
 #include <ostream>
 #include <cstddef>
-#include <streambuf>
 #include "log_level.h"
 #include "logger_interface.h"
+#include "logger_buffer.h"
 
 namespace Terra::Logger
 {
@@ -167,12 +167,12 @@ class Logger : public LoggerInterface
         LoggerPointer parent_logger;            // Pointer to parent Logger
 
         // Underlying buffers associated with the public streams below
-        std::unique_ptr<std::streambuf> critical_buffer;
-        std::unique_ptr<std::streambuf> error_buffer;
-        std::unique_ptr<std::streambuf> warning_buffer;
-        std::unique_ptr<std::streambuf> notice_buffer;
-        std::unique_ptr<std::streambuf> info_buffer;
-        std::unique_ptr<std::streambuf> debug_buffer;
+        LoggerBuffer critical_buffer;
+        LoggerBuffer error_buffer;
+        LoggerBuffer warning_buffer;
+        LoggerBuffer notice_buffer;
+        LoggerBuffer info_buffer;
+        LoggerBuffer debug_buffer;
 
     public:
         std::ostream critical;                  // Critical streaming interface
