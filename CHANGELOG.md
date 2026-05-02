@@ -1,5 +1,9 @@
 # Change Log
 
+v1.0.9
+
+- Updated dependencies
+
 v1.0.8
 
 - CMake changes
