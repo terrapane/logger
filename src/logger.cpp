@@ -1,7 +1,7 @@
 /*
  *  logger.cpp
  *
- *  Copyright (C) 2024, 2025
+ *  Copyright (C) 2024, 2025, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -20,10 +20,15 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+#include <memory>
+#include <string>
+#include <utility>
+#include <cstdint>
 #if defined(__unix__) || defined(__APPLE__)
 #include <syslog.h>
 #endif
 #include <terra/logger/logger.h>
+#include <terra/logger/log_level.h>
 #include <terra/logger/null_ostream.h>
 #include <terra/conio/ansi_capable.h>
 #include <terra/conio/ansi.h>
@@ -134,27 +139,27 @@ int LogLevelToSyslog(LogLevel log_level)
     switch (log_level)
     {
         case LogLevel::Critical:
-            priority = LOG_CRIT;
+            priority = LOG_CRIT; // NOLINT(misc-include-cleaner)
             break;
 
         case LogLevel::Error:
-            priority = LOG_ERR;
+            priority = LOG_ERR; // NOLINT(misc-include-cleaner)
             break;
 
         case LogLevel::Warning:
-            priority = LOG_WARNING;
+            priority = LOG_WARNING; // NOLINT(misc-include-cleaner)
             break;
 
         case LogLevel::Notice:
-            priority = LOG_NOTICE;
+            priority = LOG_NOTICE; // NOLINT(misc-include-cleaner)
             break;
 
         case LogLevel::Debug:
-            priority = LOG_DEBUG;
+            priority = LOG_DEBUG; // NOLINT(misc-include-cleaner)
             break;
 
         default:
-            priority = LOG_INFO;
+            priority = LOG_INFO; // NOLINT(misc-include-cleaner)
             break;
     }
 
@@ -206,7 +211,6 @@ Logger::Logger(LoggerPointer parent_logger,
                LogLevel minimum_log_level,
                LogFacility log_facility,
                std::ostream &stream) :
-    LoggerInterface(),
     enable_color{false},
     log_facility{log_facility},
     minimum_log_level{minimum_log_level},
@@ -261,10 +265,12 @@ Logger::Logger([[maybe_unused]] const std::string &identifier,
     // Open syslog for logging
     if (identifier.empty())
     {
+        // NOLINTNEXTLINE(misc-include-cleaner)
         openlog(nullptr, 0, LOG_USER);
     }
     else
     {
+        // NOLINTNEXTLINE(misc-include-cleaner)
         openlog(identifier.c_str(), 0, LOG_USER);
     }
 #endif
@@ -379,7 +385,10 @@ Logger::~Logger()
 {
 #if defined(__unix__) || defined(__APPLE__)
     // Only the parent logger needs to take action
-    if ((!parent_logger) && (log_facility == LogFacility::Syslog)) closelog();
+    if ((!parent_logger) && (log_facility == LogFacility::Syslog))
+    {
+        closelog(); // NOLINT(misc-include-cleaner)
+    }
 #endif
 
     // Disassociate the stream buffers from the streams
@@ -441,6 +450,7 @@ void Logger::Log(LogLevel log_level, const std::string &message) const
  *  Comments:
  *      None.
  */
+// NOLINTNEXTLINE(misc-no-recursion)
 void Logger::HandleLogMessage(LogLevel log_level,
                               const std::string &message) const
 {
@@ -497,6 +507,7 @@ void Logger::EmitLogMessage(LogLevel log_level,
     if (log_facility == LogFacility::Syslog)
     {
 #if defined(__unix__) || defined(__APPLE__)
+        // NOLINTNEXTLINE(misc-include-cleaner)
         syslog(LogLevelToSyslog(log_level), "%s", message.c_str());
 #endif
         return;
@@ -545,7 +556,7 @@ void Logger::EmitLogMessage(LogLevel log_level,
     if (enable_color) oss << ConIO::ANSI::Reset;
 
     // Append line terminator
-    oss << std::endl;
+    oss << std::endl; // NOLINT(performance-avoid-endl)
 
     // Output the complete message
     stream << oss.str();

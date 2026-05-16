@@ -1,7 +1,7 @@
 /*
  *  log_level.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -18,10 +18,12 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace Terra::Logger
 {
 
-enum class LogLevel
+enum class LogLevel : std::uint8_t
 {
     Critical,                                   // Critical error
     Error,                                      // Non-critical error

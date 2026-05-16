@@ -1,7 +1,7 @@
 /*
  *  null_ostream.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -45,7 +45,12 @@ class NullBuffer : public std::stringbuf
 {
     public:
         NullBuffer() noexcept = default;
-        ~NullBuffer() = default;
+        NullBuffer(const NullBuffer &other) = delete;
+        NullBuffer(NullBuffer &&other) = delete;
+        ~NullBuffer() override = default;
+
+        NullBuffer &operator=(const NullBuffer &other) = delete;
+        NullBuffer &operator=(NullBuffer &&other) = delete;
 
     protected:
         // Do nothing with the input, but report that all characters consumed
@@ -57,11 +62,16 @@ class NullBuffer : public std::stringbuf
 };
 
 // Define the NullOStream object
-class NullOStream : public std::ostream
+class NullOStream : public std::ostream // NOLINT(misc-multiple-inheritance)
 {
     public:
         NullOStream() noexcept : std::ostream(&null_buffer) {}
-        ~NullOStream() = default;
+        NullOStream(const NullOStream &other) = delete;
+        NullOStream(NullOStream &&other) = delete;
+        ~NullOStream() override = default;
+
+        NullOStream &operator=(const NullOStream &other) = delete;
+        NullOStream &operator=(NullOStream &&other) = delete;
 
     protected:
         NullBuffer null_buffer;

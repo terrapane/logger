@@ -1,7 +1,7 @@
 /*
  *  logger_macros.h
  *
- *  Copyright (C) 2024, 2025
+ *  Copyright (C) 2024, 2025, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -36,6 +36,8 @@
 
 #pragma once
 
+// NOLINTBEGIN(cppcoreguidelines-macro-usage,bugprone-macro-parentheses)
+
 #define LOGGER_CRITICAL(logger, message) \
     (logger)->critical << message << std::flush;
 
@@ -62,3 +64,5 @@
 #define LOGGER_DEBUG(logger, message)
 
 #endif
+
+// NOLINTEND(cppcoreguidelines-macro-usage,bugprone-macro-parentheses)

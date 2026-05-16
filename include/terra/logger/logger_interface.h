@@ -1,7 +1,7 @@
 /*
  *  logger_interface.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -34,7 +34,13 @@ class LoggerInterface
 {
     public:
         LoggerInterface() = default;
+        LoggerInterface(const LoggerInterface &other) = default;
+        LoggerInterface(LoggerInterface &&other) = default;
         virtual ~LoggerInterface() = default;
+
+        LoggerInterface &operator=(const LoggerInterface &other) = default;
+        LoggerInterface &operator=(LoggerInterface &&other) = default;
+
         virtual void Log(LogLevel log_level,
                          const std::string &message) const = 0;
 };

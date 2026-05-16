@@ -1,7 +1,7 @@
 /*
  *  logger_demo.cpp
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -22,7 +22,7 @@
 int main()
 {
     std::cout << "The following is example console output for the Logger"
-              << std::endl << std::flush;
+              << std::endl;
 
     // Instantiate a Logger object providing it with an output stream;
     // while Logger does not have to be a shared pointer, it helps when

@@ -3,6 +3,7 @@
 v1.0.9
 
 - Updated dependencies
+- Addressed clang-tidy suggestions
 
 v1.0.8
 

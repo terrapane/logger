@@ -1,7 +1,7 @@
 /*
  *  logger.h
  *
- *  Copyright (C) 2024, 2025
+ *  Copyright (C) 2024, 2025, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -91,6 +91,7 @@
 #include <string>
 #include <ostream>
 #include <cstddef>
+#include <cstdint>
 #include "log_level.h"
 #include "logger_interface.h"
 #include "logger_buffer.h"
@@ -99,7 +100,7 @@ namespace Terra::Logger
 {
 
 // Define the logging facilities
-enum class LogFacility
+enum class LogFacility : std::uint8_t
 {
     Stream,                                     // Streaming output
     Syslog,                                     // Linux/Unix syslog
@@ -107,7 +108,7 @@ enum class LogFacility
 };
 
 // Define the time precision options
-enum class TimePrecision
+enum class TimePrecision : std::uint8_t
 {
     Milliseconds,
     Microseconds
@@ -130,14 +131,20 @@ class Logger : public LoggerInterface
                std::ostream &stream);
 
     public:
-        Logger(const std::string &identifier,
+        explicit Logger(const std::string &identifier,
                LogLevel minimum_log_level = LogLevel::Debug);
-        Logger(std::ostream &stream,
+        explicit Logger(std::ostream &stream,
                LogLevel minimum_log_level = LogLevel::Debug);
         Logger(LoggerPointer parent_logger,
                const std::string &component,
                LogLevel minimum_log_level = LogLevel::Debug);
-        virtual ~Logger();
+        Logger(const Logger &other) = delete;
+        Logger(Logger &&other) = delete;
+        ~Logger() override;
+
+        Logger &operator=(const Logger &other) = delete;
+        Logger &operator=(const Logger &&other) = delete;
+
         void Log(LogLevel log_level, const std::string &message) const override;
         void Log(const std::string &message) const
         {
@@ -145,7 +152,7 @@ class Logger : public LoggerInterface
         }
 
         // Return the facility used by the root Logger
-        LogFacility GetLogFacility() const
+        LogFacility GetLogFacility() const // NOLINT(misc-no-recursion)
         {
             if (parent_logger) return parent_logger->GetLogFacility();
 

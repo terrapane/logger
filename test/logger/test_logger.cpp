@@ -1,7 +1,7 @@
 /*
  *  test_logger.cpp
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -62,6 +62,29 @@ STF_TEST(Logger, BasicTest)
     LoggerPointer logger = std::make_shared<Logger>(oss);
 
     logger->Log("This is a test message");
+
+    // There should be a LF at the end of the string
+    STF_ASSERT_TRUE(EnsureLFPresent(oss.str()));
+
+    // Get the logged message without a timestamp
+    std::string message = StripTimestamp(oss.str());
+
+    // There should be a CR and/or CRLF on messages, so not equal
+    STF_ASSERT_NE(std::string("[INFO] This is a test message"), message);
+
+    // Strip the CR/LF characters
+    message = StripCRLF(message);
+
+    // Verify the text of the message matches expected value
+    STF_ASSERT_EQ(std::string("[INFO] This is a test message"), message);
+}
+
+STF_TEST(Logger, BasicMacroText)
+{
+    std::ostringstream oss;
+    LoggerPointer logger = std::make_shared<Logger>(oss);
+
+    LOGGER_INFO(logger, "This is a test " << "message");
 
     // There should be a LF at the end of the string
     STF_ASSERT_TRUE(EnsureLFPresent(oss.str()));

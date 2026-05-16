@@ -1,7 +1,7 @@
 /*
  *  logger_buffer.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -42,15 +42,12 @@ class LoggerBuffer : public std::stringbuf
 {
     public:
         LoggerBuffer(LogLevel log_level, LoggerInterface *logger) :
-            std::stringbuf(),
             log_level{log_level},
             logger{logger},
-            available{true},
-            owning_thread{}
+            available{true}
         {
             // Nothing else to do
         }
-        virtual ~LoggerBuffer() = default;
 
     protected:
         void synchronize()
@@ -98,7 +95,7 @@ class LoggerBuffer : public std::stringbuf
             str({});
 
             // Lock the mutex
-            std::lock_guard<std::mutex> lock(logger_buffer_mutex);
+            const std::lock_guard<std::mutex> lock(logger_buffer_mutex);
 
             // Note that the stream is now available to other threads
             available = true;
