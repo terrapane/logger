@@ -14,5 +14,5 @@ set_target_properties(logger_demo
 # Specify the compiler options
 target_compile_options(logger_demo
     PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wpedantic -Wextra -Wall -Werror>
+        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wpedantic -Wextra -Wall -Werror -Wconversion -Wshadow>
         $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>)

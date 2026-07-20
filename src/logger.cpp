@@ -598,17 +598,21 @@ std::string Logger::GetCurrentTimestamp() const
     {
         sub_second_digits = 6;
         sub_seconds =
-            std::chrono::time_point_cast<std::chrono::microseconds>(now)
-                .time_since_epoch()
-                .count() % 1'000'000;
+            static_cast<std::uint64_t>(
+                std::chrono::time_point_cast<std::chrono::microseconds>(now)
+                    .time_since_epoch()
+                    .count()) %
+            1'000'000U;
     }
     else
     {
         sub_second_digits = 3;
         sub_seconds =
-            std::chrono::time_point_cast<std::chrono::milliseconds>(now)
-                .time_since_epoch()
-                .count() % 1'000;
+            static_cast<std::uint64_t>(
+                std::chrono::time_point_cast<std::chrono::milliseconds>(now)
+                    .time_since_epoch()
+                    .count()) %
+            1'000U;
     }
 
     // Populate the time_t structure given the current time

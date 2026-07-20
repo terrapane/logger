@@ -1,5 +1,12 @@
 # Change Log
 
+v1.1.0
+
+- Added an AndroidLogger to interface the Logger object with the native
+  Android logger
+- Updated dependencies
+- Stricter compiler warnings
+
 v1.0.9
 
 - Updated dependencies

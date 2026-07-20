@@ -25,7 +25,7 @@ endif()
 # Fetch the console I/O library
 FetchContent_Declare(conio
     GIT_REPOSITORY ${TERRAPANE_SOURCE_URI}/conio.git
-    GIT_TAG        v1.0.7
+    GIT_TAG        v1.0.8
     GIT_SHALLOW    true)
 
 # If not installing logger, turn off installation for dependencies

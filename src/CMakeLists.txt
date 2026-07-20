@@ -5,6 +5,11 @@ include(GNUInstallDirs)
 add_library(logger STATIC logger.cpp)
 add_library(Terra::logger ALIAS logger)
 
+# On Android, include the Android Logger in the library
+if(ANDROID)
+    target_sources(logger PRIVATE android_logger.cpp)
+endif()
+
 # Make project include directory available to external projects
 target_include_directories(logger
     PUBLIC
@@ -31,7 +36,7 @@ endif()
 # Use the following compile options
 target_compile_options(logger
     PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wpedantic -Wextra -Wall -Werror>
+        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wpedantic -Wextra -Wall -Werror -Wconversion -Wshadow>
         $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>)
 
 # Link against library dependencies
