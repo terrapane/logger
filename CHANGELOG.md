@@ -1,5 +1,10 @@
 # Change Log
 
+v1.1.1
+
+- Removed `std::endl` when emitting logging output
+- Updated dependencies
+
 v1.1.0
 
 - Added an AndroidLogger to interface the Logger object with the native

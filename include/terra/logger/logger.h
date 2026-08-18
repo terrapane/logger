@@ -132,9 +132,9 @@ class Logger : public LoggerInterface
 
     public:
         explicit Logger(const std::string &identifier,
-               LogLevel minimum_log_level = LogLevel::Debug);
+                        LogLevel minimum_log_level = LogLevel::Debug);
         explicit Logger(std::ostream &stream,
-               LogLevel minimum_log_level = LogLevel::Debug);
+                        LogLevel minimum_log_level = LogLevel::Debug);
         Logger(LoggerPointer parent_logger,
                const std::string &component,
                LogLevel minimum_log_level = LogLevel::Debug);

@@ -555,11 +555,8 @@ void Logger::EmitLogMessage(LogLevel log_level,
     // If using color, append the ANSI reset string
     if (enable_color) oss << ConIO::ANSI::Reset;
 
-    // Append line terminator
-    oss << std::endl; // NOLINT(performance-avoid-endl)
-
     // Output the complete message
-    stream << oss.str();
+    stream << oss.str() << '\n';
 }
 
 /*

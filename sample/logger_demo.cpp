@@ -21,8 +21,7 @@
 
 int main()
 {
-    std::cout << "The following is example console output for the Logger"
-              << std::endl;
+    std::cout << "The following is example console output for the Logger\n";
 
     // Instantiate a Logger object providing it with an output stream;
     // while Logger does not have to be a shared pointer, it helps when
