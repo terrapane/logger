@@ -4,6 +4,7 @@ v1.1.1
 
 - Removed `std::endl` when emitting logging output
 - Updated dependencies
+- Added clang-tidy to unit tests and sample code
 
 v1.1.0
 
