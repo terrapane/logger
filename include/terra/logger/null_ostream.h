@@ -54,6 +54,7 @@ class NullBuffer : public std::stringbuf
 
     protected:
         // Do nothing with the input, but report that all characters consumed
+        // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
         std::streamsize xsputn([[maybe_unused]] const char *s,
                                std::streamsize count) override
         {
@@ -65,6 +66,7 @@ class NullBuffer : public std::stringbuf
 class NullOStream : public std::ostream // NOLINT(misc-multiple-inheritance)
 {
     public:
+        // NOLINTNEXTLINE(*-use-equals-default)
         NullOStream() noexcept : std::ostream(&null_buffer) {}
         NullOStream(const NullOStream &other) = delete;
         NullOStream(NullOStream &&other) = delete;

@@ -15,12 +15,21 @@
  *      None.
  */
 
+#include <cstddef>
+#include <string>
 #include <algorithm>
+#include <iterator>
+#include <sstream>
+#include <memory>
 #include <terra/logger/logger.h>
+#include <terra/logger/log_level.h>
 #include <terra/logger/logger_macros.h>
 #include <terra/logger/null_ostream.h>
 #include <terra/conio/ansi.h>
 #include <terra/stf/stf.h>
+
+namespace
+{
 
 using namespace Terra::Logger;
 
@@ -39,10 +48,9 @@ std::string StripCRLF(const std::string &message)
     std::string result_string;
 
     // Remove any CR/LF from the message (copying after the timestamp)
-    std::copy_if(message.begin(),
-                 message.end(),
-                 std::back_inserter(result_string),
-                 [](char c) { return (c != '\r') && (c != '\n'); });
+    std::ranges::copy_if(message,
+                         std::back_inserter(result_string),
+                         [](char c) { return (c != '\r') && (c != '\n'); });
 
     return result_string;
 }
@@ -51,7 +59,7 @@ std::string StripCRLF(const std::string &message)
 bool EnsureLFPresent(const std::string &message)
 {
     // The last character should be a LF
-    if (message.length() == 0) return false;
+    if (message.empty()) return false;
 
     return message[message.length() - 1] == '\n';
 }
@@ -59,7 +67,7 @@ bool EnsureLFPresent(const std::string &message)
 STF_TEST(Logger, BasicTest)
 {
     std::ostringstream oss;
-    LoggerPointer logger = std::make_shared<Logger>(oss);
+    const LoggerPointer logger = std::make_shared<Logger>(oss);
 
     logger->Log("This is a test message");
 
@@ -82,7 +90,7 @@ STF_TEST(Logger, BasicTest)
 STF_TEST(Logger, BasicMacroText)
 {
     std::ostringstream oss;
-    LoggerPointer logger = std::make_shared<Logger>(oss);
+    const LoggerPointer logger = std::make_shared<Logger>(oss);
 
     LOGGER_INFO(logger, "This is a test " << "message");
 
@@ -105,7 +113,7 @@ STF_TEST(Logger, BasicMacroText)
 STF_TEST(Logger, VerifyColor)
 {
     std::ostringstream oss;
-    LoggerPointer logger = std::make_shared<Logger>(oss);
+    const LoggerPointer logger = std::make_shared<Logger>(oss);
 
     // Force color output, even for string writes
     logger->EnableColor(true);
@@ -146,13 +154,13 @@ STF_TEST(Logger, VerifyColor)
 STF_TEST(Logger, VerifyChildLoggers)
 {
     std::ostringstream oss;
-    LoggerPointer logger = std::make_shared<Logger>(oss);
+    const LoggerPointer logger = std::make_shared<Logger>(oss);
 
     // Create child logger that inherits from parent "logger"
-    LoggerPointer child_logger1 = std::make_shared<Logger>(logger, "FOO");
+    const LoggerPointer child_logger1 = std::make_shared<Logger>(logger, "FOO");
 
     // Create grandchild logger that inherits from child_logger1
-    LoggerPointer child_logger2 =
+    const LoggerPointer child_logger2 =
         std::make_shared<Logger>(child_logger1, "BAR");
 
     // Log message to child_logger2
@@ -179,7 +187,7 @@ STF_TEST(Logger, VerifyChildLoggers)
 STF_TEST(Logger, NullOStream)
 {
     NullOStream null_stream;
-    LoggerPointer logger = std::make_shared<Logger>(null_stream);
+    const LoggerPointer logger = std::make_shared<Logger>(null_stream);
 
     logger->Log("Logger message that should go nowhere");
     STF_ASSERT_TRUE(null_stream.good());
@@ -187,3 +195,5 @@ STF_TEST(Logger, NullOStream)
     STF_ASSERT_FALSE(null_stream.eof());
     STF_ASSERT_FALSE(null_stream.fail());
 }
+
+} // namespace
