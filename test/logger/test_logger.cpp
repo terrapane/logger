@@ -22,7 +22,7 @@
 #include <sstream>
 #include <memory>
 #include <terra/logger/logger.h>
-#include <terra/logger/log_level.h>
+//#include <terra/logger/log_level.h>
 #include <terra/logger/logger_macros.h>
 #include <terra/logger/null_ostream.h>
 #include <terra/conio/ansi.h>

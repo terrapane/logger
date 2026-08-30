@@ -19,6 +19,7 @@
 #pragma once
 
 #include "logger.h"
+#include "log_level.h"
 
 namespace Terra::Logger
 {
